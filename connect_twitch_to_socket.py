@@ -42,6 +42,8 @@ sock.send(f"JOIN {channel}\n".encode('utf-8'))
 resp = sock.recv(2048).decode('utf-8')
 print(resp)
 
+sock.close()
+
 # # create a listening socket object
 # listening_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # listening_socket.bind(('localhost', 9999))
@@ -51,24 +53,24 @@ print(resp)
 # connection, client_address = listening_socket.accept()
 
 
-# create a socket to send messages to localhost 9999
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-client_socket.connect(('127.0.0.1', 9999))
+# # create a socket to send messages to localhost 9999
+# client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# client_socket.connect(('127.0.0.1', 9999))
 
-# while KeyboardInterrupt is not pressed, continue to listen to chat
-# else, close the socket
-try:
-    while True:
-        # sleep 1 second to avoid rate limiting
-        time.sleep(1)
-        resp = sock.recv(2048).decode('utf-8')
-        print(resp)
+# # while KeyboardInterrupt is not pressed, continue to listen to chat
+# # else, close the socket
+# try:
+#     while True:
+#         # sleep 1 second to avoid rate limiting
+#         time.sleep(1)
+#         resp = sock.recv(2048).decode('utf-8')
+#         print(resp)
         
-        # send received message to localhost 9999
-        client_socket.send(resp.encode('utf-8'))
+#         # send received message to localhost 9999
+#         client_socket.send(resp.encode('utf-8'))
         
-except KeyboardInterrupt:
-    sock.close()
-    client_socket.close()
-    # listening_socket.close()
-    print('Sockets closed')
+# except KeyboardInterrupt:
+#     sock.close()
+#     client_socket.close()
+#     # listening_socket.close()
+#     print('Sockets closed')
