@@ -14,7 +14,7 @@ client_secret = 'dzx9k0ucr0ackq4j1ze14bmn65re42' # change this to your client se
 body = {
     'client_id': client_id,
     'client_secret': client_secret,
-    'code': 'efsjbed1e387hq1icgnkghua33u0zn', # change this to your code
+    'code': '0e62ozpedlai85glcw3sqy4m34goec', # change this to your code
     "grant_type": 'authorization_code',
     "redirect_uri": 'http://localhost:3000'
 }

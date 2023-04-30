@@ -4,10 +4,10 @@ import time
 
 client_id = 'rjc7kj7rpgurrxgizb1etjtqjcxg5l'
 client_secret = 'dzx9k0ucr0ackq4j1ze14bmn65re42'
-streamer_name = 'lestream'
+streamer_name = 'chess'
 
 # keys obtained from get_access_token.py
-keys = {'access_token': 'hoqrxu5v6r46b5uihgddga1vcdjo35', 'expires_in': 13144, 'refresh_token': '5ldpdhs7mrpmh28eg60o9jp6oam8dlr7pt34onmh6gaqcoh6gl', 'scope': ['chat:read'], 'token_type': 'bearer'}
+keys = {'access_token': 'er5ts4nvh3r90xwb6ntxhuow6hy74h', 'expires_in': 13699, 'refresh_token': 'xdv4nms68mzgxv1yeg9xnj7h7swv6tm8q0ygcxelb40dg2ng1l', 'scope': ['chat:read'], 'token_type': 'bearer'}
 
 headers = {
     'Client-ID': client_id,
@@ -41,16 +41,19 @@ sock.send(f"JOIN {channel}\n".encode('utf-8'))
 
 resp = sock.recv(2048).decode('utf-8')
 print(resp)
+resp = sock.recv(2048).decode('utf-8')
+print(resp)
 
-sock.close()
+# sock.close()
 
-# # create a listening socket object
-# listening_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-# listening_socket.bind(('localhost', 9999))
-# # listen for incoming connections
-# listening_socket.listen(1)
-# # accept incoming connections
-# connection, client_address = listening_socket.accept()
+# create a listening socket object
+listening_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+listening_socket.bind(('localhost', 9999))
+# listen for incoming connections
+listening_socket.listen(1)
+# accept incoming connections
+client_socket, _ = listening_socket.accept()
+print("✅ Listening socket created at localhost:9999")
 
 
 # # create a socket to send messages to localhost 9999
@@ -59,18 +62,17 @@ sock.close()
 
 # # while KeyboardInterrupt is not pressed, continue to listen to chat
 # # else, close the socket
-# try:
-#     while True:
-#         # sleep 1 second to avoid rate limiting
-#         time.sleep(1)
-#         resp = sock.recv(2048).decode('utf-8')
-#         print(resp)
+try:
+    while True:
+        # sleep 1 second to avoid rate limiting
+        time.sleep(1/60)
+        resp = sock.recv(2048)
         
-#         # send received message to localhost 9999
-#         client_socket.send(resp.encode('utf-8'))
+        # send received message to localhost 9999
+        client_socket.send(resp)
         
-# except KeyboardInterrupt:
-#     sock.close()
-#     client_socket.close()
-#     # listening_socket.close()
-#     print('Sockets closed')
+except KeyboardInterrupt:
+    sock.close()
+    client_socket.close()
+    listening_socket.close()
+    print('Sockets closed')
