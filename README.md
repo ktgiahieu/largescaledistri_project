@@ -1,4 +1,5 @@
-Processing API Data as a Stream: A Report
+
+# Processing API Data as a Stream: A Report
 
 **Authors:** Khuong Thanh-Gia-Hieu, Alex-Răzvan Ispas
 
@@ -46,7 +47,7 @@ After collecting sentiment data for each entry, the polarity and subjectivity va
 
 The asynchronous Python script in the `visualization.ipynb` notebook uses Matplotlib and Seaborn libraries to generate a scatter plot of the chat messages' sentiment values. The visualization provides a better understanding of the clustering results and how they change over time.
 
-![img]()
+![img](images/realtime.gif)
 
 ## Results and Discussion
 
