@@ -35,3 +35,6 @@
 __pycache__/
 
 # *.pkl
+oauth-keys.json
+twitch_info.json
+test.ipynb
