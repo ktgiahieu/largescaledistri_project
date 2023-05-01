@@ -76,7 +76,6 @@ def savePredictionsToCsv(rdd):
         (game, sentiment), prediction = pred
         new_rows.append([game, sentiment[0], sentiment[1], prediction])
     new_df = pd.DataFrame(new_rows, columns=['game', 'polarity', 'subjectivity', 'prediction'])
-    print(new_df)
 
     # Append new DataFrame to existing DataFrame
     output_df = pd.concat([output_df, new_df], ignore_index=True)
