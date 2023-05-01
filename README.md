@@ -1,4 +1,4 @@
-Processing API Data as a Stream: A Report
+# Processing API Data as a Stream: A Report
 
 **Authors:** Khuong Thanh-Gia-Hieu, Alex-Răzvan Ispas
 
