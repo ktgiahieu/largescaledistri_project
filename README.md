@@ -4,6 +4,8 @@
 
 In this report, we present a comprehensive analysis of clustering Twitch chat messages from the most viewed streams across five categories using sentiment analysis and K-means clustering. The project aims to analyze the Twitch chat messages from the most viewed streams of five categories: Fortnite, Just Chatting, Chess, Valorant, and Counter-Strike.
 
+![img](images/realtime.gif)
+
 ## Methodology
 
 ### Obtaining Access on Twitch Developers
