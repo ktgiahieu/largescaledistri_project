@@ -2,12 +2,13 @@ import requests
 import socket
 import time
 
-client_id = 'rjc7kj7rpgurrxgizb1etjtqjcxg5l'
-client_secret = 'dzx9k0ucr0ackq4j1ze14bmn65re42'
-streamer_name = 'chess'
+
+client_id = '9cgofwhhm5h8yzcc21gvp9aln86h8o'
+client_secret = 'l1poku0ljhtuv9735nu3vrtcluynks'
+streamer_name = 'sirhcez'
 
 # keys obtained from get_access_token.py
-keys = {'access_token': 'er5ts4nvh3r90xwb6ntxhuow6hy74h', 'expires_in': 13699, 'refresh_token': 'xdv4nms68mzgxv1yeg9xnj7h7swv6tm8q0ygcxelb40dg2ng1l', 'scope': ['chat:read'], 'token_type': 'bearer'}
+keys = {'access_token': 'mhn5qaebhkypbnyy3swrk2ldeczywx', 'expires_in': 13144, 'refresh_token': '5ldpdhs7mrpmh28eg60o9jp6oam8dlr7pt34onmh6gaqcoh6gl', 'scope': ['chat:read'], 'token_type': 'bearer'}
 
 headers = {
     'Client-ID': client_id,
@@ -27,7 +28,7 @@ else:
 
 server = 'irc.chat.twitch.tv'
 port = 6667
-nickname = 'thewonderwander'
+nickname = 'razvanip'
 token = f"oauth:{keys['access_token']}"
 channel = f'#{streamer_name}'
 
@@ -65,8 +66,10 @@ print("✅ Listening socket created at localhost:9999")
 try:
     while True:
         # sleep 1 second to avoid rate limiting
-        time.sleep(1/60)
+        time.sleep(1)
         resp = sock.recv(2048)
+
+        print(resp.decode('utf-8'))
         
         # send received message to localhost 9999
         client_socket.send(resp)
