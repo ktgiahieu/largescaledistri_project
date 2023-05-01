@@ -4,7 +4,7 @@ from textblob import TextBlob
 from pyspark import SparkContext
 from pyspark.streaming import StreamingContext
 from pyspark.mllib.clustering import StreamingKMeans
-
+import re
 # import spacy
 
 # nlp = spacy.load("en_core_web_sm")
@@ -71,31 +71,49 @@ def do_clustering(topics):
 
 # Define the function to extract data from the JSON string and perform analysis
 def process_stream(stream):
-    stream  = stream.window(60, 1)
-    messages = stream.filter(lambda x: "PRIVMSG" in x).map(lambda x: x.split(':')[-1])
-    all_words = messages.map(get_all_words).reduce(lambda a, b: a + b)
-    return all_words
-    # centroids = topics.flatMap(do_clustering)
+    stream = stream.window(60,1)
+    comments = stream.filter(lambda x: "PRIVMSG" in x).map(lambda x: x.split(':')[-1])
+    
+    sentiments = comments.map(clean_twitch_chat_message).map(attach_sentiment)
+    
+    return sentiments
+    
 
-    # # location = sentiment.map(get_location)
-    # # labels = do_clustering(location)
-    # # window_counts = labels.countByValueAndWindow(60, 1)
-    # # print(window_counts)
-    # if len(topics) > 0:
-    #     # Convert the topics to a numerical vector using one-hot encoding
-    #     vocab = list(set(topics))
-    #     vector = [int(topic in topics) for topic in vocab]
+
+
+def clean_twitch_chat_message(message):
+    # Remove usernames
+    message = re.sub(r'@[\S]+', '', message)
+    # Remove emotes
+    message = re.sub(r':[a-z]+:', '', message)
+    # Remove URLs
+    message = re.sub(r'http\S+', '', message)
+    # Remove punctuation and digits
+    message = re.sub(r'[^\w\s]', '', message)
+    message = re.sub(r'\d+', '', message)
+    # Remove extra whitespace
+    message = re.sub(r'\s+', ' ', message)
+    # Remove leading/trailing whitespace
+    message = message.strip()
+    return message
+
+    
+def attach_sentiment(text): 
+
+    # create a TextBlob object for the text
+    blob = TextBlob(text)
+
+    # get the sentiment polarity and subjectivity
+    polarity = blob.sentiment.polarity
+    
+    if polarity > 0.5:
+        sentiment = "positive"
+    elif polarity < -0.5:
+        sentiment = "negative"
+    else:
+        sentiment = "neutral"
         
-    #     # Initialize the streaming k-means model
-    #     model = StreamingKMeans(k=3, decayFactor=0.5)
-    #     # Update the streaming k-means model with the vector
-    #     model.update([vector])
-        
-    #     # Get the current centroids of the model
-    #     centroids = model.latestModel().clusterCenters.tolist()
-        
-    #     # Emit the current centroids
-    #     yield centroids
+    return f'{sentiment}: {text}'
 
 
 if __name__ == "__main__":
@@ -112,7 +130,8 @@ if __name__ == "__main__":
     decay_factor = 0.5
 
     stream = ssc.socketTextStream(sys.argv[1], int(sys.argv[2]))
-    # stream.pprint()
+    print('Content:')
+    stream.pprint()
     centroids = process_stream(stream)
 
     

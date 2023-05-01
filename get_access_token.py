@@ -8,13 +8,13 @@
 
 import requests
 
-client_id = 'rjc7kj7rpgurrxgizb1etjtqjcxg5l' # change this to your client id
-client_secret = 'dzx9k0ucr0ackq4j1ze14bmn65re42' # change this to your client secret
+client_id = '9cgofwhhm5h8yzcc21gvp9aln86h8o'
+client_secret = 'l1poku0ljhtuv9735nu3vrtcluynks'
 
 body = {
     'client_id': client_id,
     'client_secret': client_secret,
-    'code': '0e62ozpedlai85glcw3sqy4m34goec', # change this to your code
+    'code': 'qy95drslgjfke9ryrz489k4wkmvctz', # change this to your code
     "grant_type": 'authorization_code',
     "redirect_uri": 'http://localhost:3000'
 }
