@@ -149,20 +149,23 @@ try:
     while True:
         # sleep to avoid rate limiting
         time.sleep(1/20)
-        all_messages = defaultdict(list)
         for g_name in games:
+            all_messages = defaultdict(list)
             for streamer in live_streams[g_name]:
                 # get the socket object
                 sock = sockets[streamer]
                 # get the message from the socket
-                resp = sock.recv(2048).decode('utf-8')
+                resp = sock.recv(2048).decode('utf-8', 'ignore')
                 all_messages[g_name].append(resp)
-        # concatenate all messages
-        for g_name in games:
-            all_messages[g_name] = '\n'.join(all_messages[g_name])
 
-        # send the message to Spark Streaming
-        client_socket.sendall((json.dumps(all_messages) + '\n').encode('utf-8'))
+            # concatenate all messages
+            all_messages[g_name] = ''.join(all_messages[g_name])
+            print(f"{g_name}:\n{all_messages[g_name]}")
+            # send the message to Spark Streaming
+            client_socket.sendall((json.dumps(all_messages) + '\n').encode('utf-8'))
+            
+
+        
         
 except (KeyboardInterrupt, BrokenPipeError) as e:
     if isinstance(e, BrokenPipeError):
