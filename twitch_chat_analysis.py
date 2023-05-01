@@ -64,12 +64,6 @@ def process_stream(stream):
     return sentiments
 
 def savePredictionsToCsv(rdd):
-    # If output.csv doesn't exist, create it
-    if not os.path.isfile('output.csv'):
-        output_df = pd.DataFrame(columns=['game', 'polarity', 'subjectivity', 'prediction'])
-    else:
-        output_df = pd.read_csv('output.csv')
-    
     # Convert RDD to DataFrame
     new_rows = []
     for pred in rdd.collect():
@@ -77,9 +71,7 @@ def savePredictionsToCsv(rdd):
         new_rows.append([game, sentiment[0], sentiment[1], prediction])
     new_df = pd.DataFrame(new_rows, columns=['game', 'polarity', 'subjectivity', 'prediction'])
 
-    # Append new DataFrame to existing DataFrame
-    output_df = pd.concat([output_df, new_df], ignore_index=True)
-    output_df.to_csv('output.csv', index=False)
+    new_df.to_csv('output.csv', index=False)
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
